@@ -62,8 +62,6 @@ zerops:
         NEXT_PUBLIC_INDEX_NAME: products
         NEXT_PUBLIC_SEARCH_API_KEY: ${search_defaultSearchKey}
         OBJECT_STORAGE_API_URL: ${storage_apiUrl}
-        RELOAD_SECRET: ${RELOAD_SECRET}
-        RELOAD_SECRET: ${RELOAD_SECRET}
 
   - setup: dev
     build:
@@ -104,4 +102,3 @@ zerops:
         NEXT_PUBLIC_INDEX_NAME: products
         NEXT_PUBLIC_SEARCH_API_KEY: ${search_defaultSearchKey}
         OBJECT_STORAGE_API_URL: ${storage_apiUrl}
-        RELOAD_SECRET: ${RELOAD_SECRET}

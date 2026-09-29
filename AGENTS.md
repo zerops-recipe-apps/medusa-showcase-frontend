@@ -1,4 +1,4 @@
-# medusa-showcase-nextstore
+# medusa-showcase-frontend
 
 Next.js 16 showcase storefront (Yarn 3 Berry). Pairs with [medusa-showcase](https://github.com/zerops-recipe-apps/medusa-showcase).
 

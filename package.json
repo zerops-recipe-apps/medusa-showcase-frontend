@@ -7,7 +7,7 @@
   "description": "Medusa v2.19 Next.js 16 App Router storefront for Zerops (Node SSR).",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zerops-recipe-apps/medusa-showcase-nextstore.git"
+    "url": "https://github.com/zerops-recipe-apps/medusa-showcase-frontend.git"
   },
   "homepage": "https://github.com/zerops-recipe-apps/medusa-showcase",
   "bugs": {
