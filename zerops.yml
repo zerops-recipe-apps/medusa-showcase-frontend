@@ -1,11 +1,70 @@
 # yaml-language-server: $schema=https://api.app-prg1.zerops.io/api/rest/public/settings/zerops-yaml-json-schema.json
 #
-# Standalone Next.js storefront. Setups are only `dev` and `prod`.
+# Standalone Next.js storefront. Canonical setups: `prod` and `dev`.
+# `nextstore` mirrors `prod` for legacy imports that set zeropsSetup to the hostname.
 # Vault keys inject as-is. This file remaps or computes the rest.
 # `dev` deploys `./` so a git-connected workspace does not lose sources.
 
 zerops:
   - setup: prod
+    build:
+      base: nodejs@24
+      envVariables:
+        MEDUSA_BACKEND_URL: ${API_URL}
+        MEDUSA_PUBLISHABLE_KEY: ${CHANNEL_PUBLISHABLE_KEY}
+        NEXT_PUBLIC_MEDUSA_BACKEND_URL: ${API_URL}
+        NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${CHANNEL_PUBLISHABLE_KEY}
+        NEXT_PUBLIC_BASE_URL: ${APP_URL}
+        NEXT_PUBLIC_DEFAULT_REGION: de
+        NEXT_PUBLIC_SEARCH_ENDPOINT: ${SEARCH_URL}
+        NEXT_PUBLIC_SEARCH_API_KEY: ${RUNTIME_NEXT_PUBLIC_SEARCH_API_KEY}
+        NEXT_PUBLIC_FEATURE_SEARCH_ENABLED: ${RUNTIME_NEXT_PUBLIC_FEATURE_SEARCH_ENABLED}
+        NEXT_PUBLIC_INDEX_NAME: ${RUNTIME_NEXT_PUBLIC_INDEX_NAME}
+        OBJECT_STORAGE_API_URL: ${RUNTIME_OBJECT_STORAGE_API_URL}
+      prepareCommands:
+        - corepack enable
+      buildCommands:
+        - yarn
+        - yarn build
+      deployFiles:
+        - .next
+        - package.json
+        - next.config.js
+        - yarn.lock
+        - .yarnrc.yml
+        - node_modules
+        - public
+        - check-env-variables.js
+      cache:
+        - node_modules
+    deploy:
+      readinessCheck:
+        httpGet:
+          port: 8000
+          path: /api/health
+    run:
+      base: nodejs@24
+      healthCheck:
+        httpGet:
+          port: 8000
+          path: /api/health
+      ports:
+        - port: 8000
+          httpSupport: true
+      envVariables:
+        MEDUSA_BACKEND_URL: http://${MEDUSA_HOST}:9000
+        MEDUSA_PUBLISHABLE_KEY: ${CHANNEL_PUBLISHABLE_KEY}
+        NEXT_PUBLIC_MEDUSA_BACKEND_URL: ${API_URL}
+        NEXT_PUBLIC_BASE_URL: ${APP_URL}
+        NEXT_PUBLIC_DEFAULT_REGION: de
+        NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${CHANNEL_PUBLISHABLE_KEY}
+        NEXT_PUBLIC_SEARCH_ENDPOINT: ${SEARCH_URL}
+        NEXT_PUBLIC_FEATURE_SEARCH_ENABLED: "true"
+        NEXT_PUBLIC_INDEX_NAME: products
+        NEXT_PUBLIC_SEARCH_API_KEY: ${search_defaultSearchKey}
+        OBJECT_STORAGE_API_URL: ${storage_apiUrl}
+
+  - setup: nextstore
     build:
       base: nodejs@24
       envVariables:
