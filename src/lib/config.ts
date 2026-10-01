@@ -27,17 +27,16 @@ sdk.client.fetch = async <T>(
     headers[PUBLISHABLE_KEY_HEADER] = publishableKey
   }
 
-  let localeHeader: Record<string, string | null> | undefined
   try {
-    localeHeader = await getLocaleHeader()
-    headers["x-medusa-locale"] ??= localeHeader["x-medusa-locale"]
+    const localeHeader = await getLocaleHeader()
+    const locale = localeHeader["x-medusa-locale"]
+    if (locale) {
+      headers["x-medusa-locale"] ??= locale
+    }
   } catch {}
 
   return originalFetch(input, {
     ...init,
-    headers: {
-      ...localeHeader,
-      ...headers,
-    },
+    headers,
   })
 }

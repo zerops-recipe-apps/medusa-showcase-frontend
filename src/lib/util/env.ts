@@ -1,5 +1,13 @@
 export const getBaseURL = () => {
-  return process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
+  const raw = process.env.NEXT_PUBLIC_BASE_URL?.trim()
+  if (raw) {
+    try {
+      return new URL(raw).origin
+    } catch {
+      // Invalid NEXT_PUBLIC_BASE_URL must not crash `new URL()` in layouts.
+    }
+  }
+  return "https://localhost:8000"
 }
 
 function readEnv(name: string): string {

@@ -11,6 +11,7 @@ export const listRegions = async () => {
       ...catalogFetchOptions(),
     })
     .then(({ regions }) => regions)
+    .catch(() => [] as HttpTypes.StoreRegion[])
 }
 
 export const retrieveRegion = async (id: string) => {
