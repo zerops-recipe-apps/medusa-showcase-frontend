@@ -48,13 +48,25 @@ zerops:
       buildCommands:
         - yarn
         - yarn build
+      deployFiles:
+        - .next
+        - package.json
+        - next.config.js
+        - yarn.lock
+        - .yarnrc.yml
+        - node_modules
+        - public
+        - check-env-variables.js
     run:
+      base: nodejs@24
       ports:
         - port: 8000
           httpSupport: true
+      start: yarn start
 
   - setup: dev
     build:
+      base: nodejs@24
       deployFiles: ./
 ```
 
