@@ -17,12 +17,14 @@ export default async function ProductRail({
   } = await listProducts({
     regionId: region.id,
     queryParams: {
-      collection_id: collection.id,
+      ...(collection.metadata?.fallback
+        ? {}
+        : { collection_id: collection.id }),
       fields: "*variants.calculated_price",
     },
   })
 
-  if (!pricedProducts) {
+  if (!pricedProducts?.length) {
     return null
   }
 
@@ -30,7 +32,13 @@ export default async function ProductRail({
     <div className="content-container py-12 small:py-24">
       <div className="flex justify-between mb-8">
         <Text className="txt-xlarge">{collection.title}</Text>
-        <InteractiveLink href={`/collections/${collection.handle}`}>
+        <InteractiveLink
+          href={
+            collection.metadata?.fallback
+              ? "/store"
+              : `/collections/${collection.handle}`
+          }
+        >
           View all
         </InteractiveLink>
       </div>
