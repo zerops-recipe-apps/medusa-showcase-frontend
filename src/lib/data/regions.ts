@@ -11,7 +11,10 @@ export const listRegions = async () => {
       ...catalogFetchOptions(),
     })
     .then(({ regions }) => regions)
-    .catch(() => [] as HttpTypes.StoreRegion[])
+    .catch((error) => {
+      console.error("listRegions: store regions request failed", error)
+      return [] as HttpTypes.StoreRegion[]
+    })
 }
 
 export const retrieveRegion = async (id: string) => {

@@ -1,6 +1,6 @@
 import { getLocaleHeader } from "@lib/util/get-locale-header"
 import {
-  getMedusaBackendUrl,
+  getBrowserMedusaBackendUrl,
   getMedusaPublishableKey,
 } from "@lib/util/env"
 import Medusa, { FetchArgs, FetchInput } from "@medusajs/js-sdk"
@@ -8,7 +8,7 @@ import Medusa, { FetchArgs, FetchInput } from "@medusajs/js-sdk"
 const PUBLISHABLE_KEY_HEADER = "x-publishable-api-key"
 
 export const sdk = new Medusa({
-  baseUrl: getMedusaBackendUrl(),
+  baseUrl: getBrowserMedusaBackendUrl(),
   debug: process.env.NODE_ENV === "development",
   publishableKey: getMedusaPublishableKey() || undefined,
 })

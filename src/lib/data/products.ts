@@ -86,11 +86,14 @@ export const listProducts = async ({
         queryParams,
       }
     })
-    .catch(() => ({
-      response: { products: [], count: 0 },
-      nextPage: null,
-      queryParams,
-    }))
+    .catch((error) => {
+      console.error("listProducts: store catalog request failed", error)
+      return {
+        response: { products: [], count: 0 },
+        nextPage: null,
+        queryParams,
+      }
+    })
 }
 
 /**
