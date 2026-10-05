@@ -16,9 +16,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 })
   }
 
-  setTimeout(() => {
-    process.exit(0)
-  }, 250)
-
-  return NextResponse.json({ status: "reloading" })
+  // Do not exit — Zerops readiness needs :8000 up; the storefront loads pk_ from
+  // env or medusa /internal/publishable-key on each request after seed.
+  return NextResponse.json({ status: "ok" })
 }
