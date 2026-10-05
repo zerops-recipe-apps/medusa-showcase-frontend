@@ -43,7 +43,7 @@ zerops:
           port: 8000
           path: /api/health
         failureTimeout: 90s
-        retryPeriod: 2s
+        retryPeriod: 10s
     run:
       base: nodejs@24
       healthCheck:
@@ -108,7 +108,7 @@ zerops:
           port: 8000
           path: /api/health
         failureTimeout: 90s
-        retryPeriod: 2s
+        retryPeriod: 10s
     run:
       base: nodejs@24
       healthCheck:
