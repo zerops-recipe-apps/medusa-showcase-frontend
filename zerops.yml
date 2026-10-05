@@ -42,6 +42,8 @@ zerops:
         httpGet:
           port: 8000
           path: /api/health
+        failureTimeout: 90
+        retryPeriod: 2
     run:
       base: nodejs@24
       healthCheck:
@@ -52,6 +54,7 @@ zerops:
         - port: 8000
           httpSupport: true
       envVariables:
+        HOSTNAME: 0.0.0.0
         # Vault injects MEDUSA_HOST; do not remap it here (self-ref stays literal).
         MEDUSA_BACKEND_URL: http://${MEDUSA_HOST}:9000
         MEDUSA_PUBLISHABLE_KEY: ${CHANNEL_PUBLISHABLE_KEY}
@@ -104,6 +107,8 @@ zerops:
         httpGet:
           port: 8000
           path: /api/health
+        failureTimeout: 90
+        retryPeriod: 2
     run:
       base: nodejs@24
       healthCheck:
@@ -114,6 +119,7 @@ zerops:
         - port: 8000
           httpSupport: true
       envVariables:
+        HOSTNAME: 0.0.0.0
         # Vault injects MEDUSA_HOST; do not remap it here (self-ref stays literal).
         MEDUSA_BACKEND_URL: http://${MEDUSA_HOST}:9000
         MEDUSA_PUBLISHABLE_KEY: ${CHANNEL_PUBLISHABLE_KEY}
