@@ -24,6 +24,7 @@ async function fetchPublishableKeyFromMedusa(): Promise<string> {
       {
         headers: { "x-reload-secret": secret },
         cache: "no-store",
+        signal: AbortSignal.timeout(8_000),
       }
     )
 
