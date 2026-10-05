@@ -36,7 +36,7 @@ function checkEnvVariables() {
 
   if (process.env.ZEROPS_ProjectId) {
     console.warn(
-      "Build: publishable key not resolved yet; runtime will respawn until medusa CHANNEL_PUBLISHABLE_KEY is a pk_ key."
+      "Build: publishable key not resolved yet; runtime will load pk_ from medusa after seed."
     )
     return
   }
