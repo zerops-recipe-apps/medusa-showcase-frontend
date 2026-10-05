@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
-import {
-  getMedusaBackendUrl,
-  getMedusaPublishableKey,
-} from "@lib/util/env"
+import { getMedusaBackendUrl } from "@lib/util/env"
+import { resolvePublishableKey } from "@lib/medusa/publishable-key.server"
 
 export const dynamic = "force-dynamic"
 export const runtime = "nodejs"
@@ -28,14 +26,27 @@ async function proxy(
     )
   }
 
+  const publishableKey =
+    (await resolvePublishableKey()) ||
+    request.headers.get("x-publishable-api-key")?.trim() ||
+    ""
+
+  if (!publishableKey.startsWith("pk_")) {
+    console.error(
+      "api/medusa: publishable key missing — set CHANNEL_PUBLISHABLE_KEY or redeploy medusa after seed"
+    )
+    return NextResponse.json(
+      {
+        message:
+          "Publishable API key is not configured on the storefront. Redeploy medusa, then nextstore.",
+      },
+      { status: 503 }
+    )
+  }
+
   const target = new URL(`/${path.join("/")}${request.nextUrl.search}`, backend)
   const headers = new Headers()
-  const publishableKey =
-    getMedusaPublishableKey() || request.headers.get("x-publishable-api-key")
-
-  if (publishableKey) {
-    headers.set("x-publishable-api-key", publishableKey)
-  }
+  headers.set("x-publishable-api-key", publishableKey)
 
   for (const name of [
     "content-type",

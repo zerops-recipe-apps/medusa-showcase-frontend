@@ -1,3 +1,8 @@
+import {
+  isResolvedPublishableKey,
+  readPublishableKeyFromEnv,
+} from "@lib/util/publishable-key"
+
 export const getBaseURL = () => {
   const raw = process.env.NEXT_PUBLIC_BASE_URL?.trim()
   if (raw) {
@@ -62,32 +67,9 @@ export function getBrowserMedusaBackendUrl(): string {
   return getMedusaBackendUrl()
 }
 
-function isResolvedPublishableKey(value: string): boolean {
-  return Boolean(value) && value.startsWith("pk_") && !value.includes("${")
-}
-
-/**
- * Publishable key for Medusa store APIs.
- * NEXT_PUBLIC_* is baked at build; MEDUSA_PUBLISHABLE_KEY is the runtime fallback
- * when the first storefront build ran before backend seed wrote CHANNEL_PUBLISHABLE_KEY.
- * Rejects empty values and unresolved Zerops refs (${medusa_CHANNEL_PUBLISHABLE_KEY}).
- */
+/** Publishable key for Medusa store APIs (sync; use resolvePublishableKey on server when empty). */
 export function getMedusaPublishableKey(): string {
-  const fromPublic = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY?.trim()
-  if (fromPublic && isResolvedPublishableKey(fromPublic)) {
-    return fromPublic
-  }
-
-  for (const name of [
-    "MEDUSA_PUBLISHABLE_KEY",
-    "NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY",
-    "RUNTIME_NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY",
-  ]) {
-    const value = process.env[name]?.trim() || ""
-    if (isResolvedPublishableKey(value)) {
-      return value
-    }
-  }
-
-  return ""
+  return readPublishableKeyFromEnv()
 }
+
+export { isResolvedPublishableKey }

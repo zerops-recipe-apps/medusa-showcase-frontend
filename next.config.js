@@ -33,6 +33,7 @@ const nextConfig = {
     NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY:
       process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY ||
       process.env.MEDUSA_PUBLISHABLE_KEY ||
+      process.env.CHANNEL_PUBLISHABLE_KEY ||
       "",
   },
   logging: {
