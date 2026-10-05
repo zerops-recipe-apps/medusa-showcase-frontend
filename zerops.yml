@@ -42,8 +42,8 @@ zerops:
         httpGet:
           port: 8000
           path: /api/health
-        failureTimeout: 90
-        retryPeriod: 2
+        failureTimeout: 90s
+        retryPeriod: 2s
     run:
       base: nodejs@24
       healthCheck:
@@ -107,8 +107,8 @@ zerops:
         httpGet:
           port: 8000
           path: /api/health
-        failureTimeout: 90
-        retryPeriod: 2
+        failureTimeout: 90s
+        retryPeriod: 2s
     run:
       base: nodejs@24
       healthCheck:
